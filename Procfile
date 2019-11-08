@@ -1,1 +1,1 @@
-web: bin/anget-entry
+web: bin/angat-entry

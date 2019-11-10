@@ -1,4 +1,4 @@
-module github.com/jmramos02s/smarty-seed-backend
+module github.com/jmramos02/smarty-seed-backend
 
 go 1.13
 

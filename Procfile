@@ -1,1 +1,1 @@
-web: bin/angat-entry
+web: bin/smarty-seed-backend

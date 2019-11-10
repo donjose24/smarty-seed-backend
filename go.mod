@@ -1,4 +1,4 @@
-module github.com/jmramos02/angat-entry
+module github.com/jmramos02s/smarty-seed-backend
 
 go 1.13
 

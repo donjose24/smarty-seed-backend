@@ -12,5 +12,5 @@ type User struct {
 	Password  string    `json:"-"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-	DeletedAt time.Time `json:"deleted_at"`
+	DeletedAt time.Time `json:"deleted_at" gorm:"column:deleted_at;default:null"`
 }

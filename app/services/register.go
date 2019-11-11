@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"fmt"
 	"github.com/hashicorp/go-multierror"
 	"github.com/jinzhu/gorm"
 	"github.com/jmramos02/smarty-seed-backend/app/models"
@@ -35,10 +34,9 @@ func Register(r RegisterRequest, db *gorm.DB) (RegisterResponse, error) {
 		return RegisterResponse{}, result
 	}
 
-	user := models.User{}
-	db.Where("email = ?", r.Email).First(&user)
+	var user models.User
+	db.Where("email = ?", r.Email).Find(&user)
 	if user.ID != 0 {
-		fmt.Println(user)
 		return RegisterResponse{}, errors.New("Email is already taken.")
 	}
 

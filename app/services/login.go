@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"github.com/hashicorp/go-multierror"
 	"github.com/jinzhu/gorm"
 	"github.com/jmramos02/smarty-seed-backend/app/models"
@@ -42,6 +43,7 @@ func Login(r LoginRequest, db *gorm.DB) (LoginResponse, error) {
 	err = CompareToHash(user.Password, r.Password)
 
 	if err != nil {
+		fmt.Println(r.Password)
 		return LoginResponse{}, errors.New("Invalid Credentials. Please check your email and password")
 	}
 

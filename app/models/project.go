@@ -1,9 +1,18 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type Project struct {
-	gorm.Model
+	ID          uint      `gorm:"primary_key" json:"id"`
+	Title       string    `json:"title"`
+	Goal        int       `json:"goal"`
+	Beneficiary string    `json:"beneficiary"`
+	Description string    `json:description`
+	ImageUrl    string    `json:"image_url"`
+	Deadline    time.Time `json:"deadline"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	DeletedAt   time.Time `json:"deleted_at" gorm:"column:deleted_at;default:null"`
 }

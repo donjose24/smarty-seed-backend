@@ -15,8 +15,12 @@ func Initialize(db *gorm.DB) *gin.Engine {
 	router.Use(addContextMiddleware(db))
 
 	//Service router will be here below
-	router.POST("/login", handlers.Login)
-	router.POST("/register", handlers.Register)
+	api := router.Group("/api/v1")
+	{
+		api.POST("/login", handlers.Login)
+		api.POST("/register", handlers.Register)
+		api.GET("/projects", handlers.ListProjects)
+	}
 
 	return router
 }

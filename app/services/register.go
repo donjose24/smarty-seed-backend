@@ -38,9 +38,9 @@ func Register(r RegisterRequest, db *gorm.DB) (RegisterResponse, error) {
 	user := models.User{}
 	db.Where("email = ?", r.Email).First(&user)
 	if user.ID != 0 {
+		fmt.Println(user)
 		return RegisterResponse{}, errors.New("Email is already taken.")
 	}
-	fmt.Println(user)
 
 	user = models.User{
 		FirstName: r.FirstName,

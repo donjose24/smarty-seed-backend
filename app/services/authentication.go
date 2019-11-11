@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jmramos02/smarty-seed-backend/app/models"
 	"github.com/jmramos02/smarty-seed-backend/config"
@@ -31,4 +32,19 @@ func EncodeUserInfo(user models.User) string {
 	}
 
 	return tokenString
+}
+
+func DecodeUserInfo(token string) (models.User, error) {
+	appKey := config.GetApplicationKey()
+	claims := &Claims{}
+
+	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(appKey), nil
+	})
+
+	if err != nil {
+		return models.User{}, errors.New(err.Error())
+	}
+
+	return claims.User, nil
 }

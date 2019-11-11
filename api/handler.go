@@ -2,10 +2,12 @@ package api
 
 import (
 	"context"
+	"fmt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/jmramos02/smarty-seed-backend/api/handlers"
+	"github.com/jmramos02/smarty-seed-backend/app/services"
 	"strings"
 )
 
@@ -20,12 +22,18 @@ func Initialize(db *gorm.DB) *gin.Engine {
 		api.POST("/login", handlers.Login)
 		api.POST("/register", handlers.Register)
 		api.GET("/projects", handlers.ListProjects)
+
+		protectedRoutes := api.Group("")
+		{
+			protectedRoutes.Use(authenticationMiddleware())
+			protectedRoutes.GET("/user", handlers.GetUser)
+		}
 	}
 
 	return router
 }
 
-//Temporarily. this is bad practice
+//Temporarily. i think we can use context here.
 func addContextMiddleware(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Set("db", db)
@@ -39,11 +47,24 @@ func authenticationMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		reqToken := c.Request.Header.Get("Authorization")
 		splitToken := strings.Split(reqToken, "Bearer")
-		reqToken = splitToken[1]
 		if len(splitToken) != 2 {
 			c.JSON(401, gin.H{
 				"error": "Invalid Authorization Header",
 			})
+			c.Abort()
+			return
 		}
+		reqToken = strings.TrimSpace(splitToken[1])
+		fmt.Println(splitToken)
+		user, err := services.DecodeUserInfo(reqToken)
+		if err != nil {
+			c.JSON(401, gin.H{
+				"error": err.Error(),
+			})
+			c.Abort()
+			return
+		}
+		c.Set("user", user)
+		c.Next()
 	}
 }

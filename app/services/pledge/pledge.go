@@ -13,7 +13,7 @@ type PledgeRequest struct {
 
 func Create(pledge models.Pledge, db *gorm.DB) models.Pledge {
 	db.NewRecord(pledge)
-	db.Set("gorm:association_autocreate", false).Create(&pledge)
+	db.Create(&pledge)
 
 	return pledge
 }

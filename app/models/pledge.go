@@ -7,9 +7,9 @@ import (
 type Pledge struct {
 	ID        uint `gorm:"primary_key" json:"id"`
 	UserID    uint
-	User      User
+	User      User `gorm:"association_autoupdate:false"`
 	ProjectID uint
-	Project   Project
+	Project   Project `gorm:"association_autoupdate:false"`
 	Amount    int
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`

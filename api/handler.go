@@ -3,11 +3,11 @@ package api
 import (
 	"context"
 	"fmt"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/jmramos02/smarty-seed-backend/api/handlers"
 	"github.com/jmramos02/smarty-seed-backend/app/services"
+	cors "github.com/rs/cors/wrapper/gin"
 	"strings"
 )
 
@@ -28,7 +28,6 @@ func Initialize(db *gorm.DB) *gin.Engine {
 
 		protectedRoutes := api.Group("")
 		{
-			protectedRoutes.Use(cors.Default())
 			protectedRoutes.Use(authenticationMiddleware())
 			protectedRoutes.GET("/user", handlers.GetUser)
 			protectedRoutes.GET("/payments/unionbank", handlers.GenerateUnionbankRedirectString)

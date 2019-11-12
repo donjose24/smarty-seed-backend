@@ -11,6 +11,7 @@ require (
 	github.com/hashicorp/go-multierror v1.0.0
 	github.com/jinzhu/gorm v1.9.11
 	github.com/leodido/go-urn v1.2.0 // indirect
+	github.com/rs/cors v1.7.0
 	golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c
 	gopkg.in/go-playground/validator.v9 v9.30.0
 )

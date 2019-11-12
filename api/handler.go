@@ -28,6 +28,7 @@ func Initialize(db *gorm.DB) *gin.Engine {
 
 		protectedRoutes := api.Group("")
 		{
+			protectedRoutes.Use(cors.Default())
 			protectedRoutes.Use(authenticationMiddleware())
 			protectedRoutes.GET("/user", handlers.GetUser)
 			protectedRoutes.GET("/payments/unionbank", handlers.GenerateUnionbankRedirectString)

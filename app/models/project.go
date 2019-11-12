@@ -12,7 +12,7 @@ type Project struct {
 	Description string    `json:description`
 	ImageUrl    string    `json:"image_url"`
 	Category    string    `gorm:"default:'Educational Assistance'" json:"category"`
-	Current     int       `gorm:"-", json:"category"`
+	Current     int       `gorm:"-", json:"current"`
 	Deadline    time.Time `json:"deadline"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`

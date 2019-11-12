@@ -27,6 +27,7 @@ func Initialize(db *gorm.DB) *gin.Engine {
 		{
 			protectedRoutes.Use(authenticationMiddleware())
 			protectedRoutes.GET("/user", handlers.GetUser)
+			protectedRoutes.GET("/payments/unionbank", handlers.GenerateUnionbankRedirectString)
 		}
 	}
 

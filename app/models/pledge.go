@@ -8,7 +8,7 @@ type Pledge struct {
 	ID        uint `gorm:"primary_key" json:"id"`
 	UserID    uint
 	User      User
-	ProjectId uint
+	ProjectID uint
 	Project   Project
 	Amount    int
 	CreatedAt time.Time `json:"created_at"`

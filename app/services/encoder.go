@@ -8,8 +8,14 @@ import (
 	"time"
 )
 
+//TODO: lots of duplicate code. reuse some stuff.
 type Claims struct {
 	User models.User
+	jwt.StandardClaims
+}
+
+type PledgeClaim struct {
+	Pledge models.Pledge
 	jwt.StandardClaims
 }
 
@@ -47,4 +53,25 @@ func DecodeUserInfo(token string) (models.User, error) {
 	}
 
 	return claims.User, nil
+}
+
+func EncodePledge(pledge models.Pledge) string {
+	appKey := config.GetApplicationKey()
+	// 1 hour expiration
+	expirationTime := time.Now().Add(1 * time.Hour)
+	claim := PledgeClaim{
+		Pledge: pledge,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
+	tokenString, err := token.SignedString([]byte(appKey))
+
+	if err != nil {
+		panic("Signing Failed. Please check application key")
+	}
+
+	return tokenString
 }

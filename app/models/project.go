@@ -9,10 +9,10 @@ type Project struct {
 	Title       string    `json:"title"`
 	Goal        int       `json:"goal"`
 	Beneficiary string    `json:"beneficiary"`
-	Description string    `json:description`
+	Description string    `json:"description"`
 	ImageUrl    string    `json:"image_url"`
 	Category    string    `gorm:"default:'Educational Assistance'" json:"category"`
-	Current     int       `gorm:"-", json:"current"`
+	Current     int       `json:"current" gorm:"-"`
 	Deadline    time.Time `json:"deadline"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`

@@ -22,6 +22,7 @@ func Initialize(db *gorm.DB) *gin.Engine {
 		api.POST("/login", handlers.Login)
 		api.POST("/register", handlers.Register)
 		api.GET("/projects", handlers.ListProjects)
+		api.GET("/projects/:id", handlers.ShowProject)
 
 		protectedRoutes := api.Group("")
 		{

@@ -15,6 +15,7 @@ func Initialize(db *gorm.DB) *gin.Engine {
 	router := gin.Default()
 	router.Use(cors.Default())
 	router.Use(addContextMiddleware(db))
+	router.LoadHTMLGlob("web/*.html")
 
 	//Service router will be here below
 	api := router.Group("/api/v1")
@@ -23,6 +24,7 @@ func Initialize(db *gorm.DB) *gin.Engine {
 		api.POST("/register", handlers.Register)
 		api.GET("/projects", handlers.ListProjects)
 		api.GET("/projects/:id", handlers.ShowProject)
+		api.GET("/unionbank/callback", handlers.HandleUnionbankCallback)
 
 		protectedRoutes := api.Group("")
 		{

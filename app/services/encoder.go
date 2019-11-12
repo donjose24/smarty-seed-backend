@@ -75,3 +75,18 @@ func EncodePledge(pledge models.Pledge) string {
 
 	return tokenString
 }
+
+func DecodePledge(token string) (models.Pledge, error) {
+	appKey := config.GetApplicationKey()
+	pledge := &PledgeClaim{}
+
+	_, err := jwt.ParseWithClaims(token, pledge, func(token *jwt.Token) (interface{}, error) {
+		return []byte(appKey), nil
+	})
+
+	if err != nil {
+		return models.Pledge{}, errors.New(err.Error())
+	}
+
+	return pledge.Pledge, nil
+}

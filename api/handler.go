@@ -7,13 +7,12 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/jmramos02/smarty-seed-backend/api/handlers"
 	"github.com/jmramos02/smarty-seed-backend/app/services"
-	cors "github.com/rs/cors/wrapper/gin"
 	"strings"
 )
 
 func Initialize(db *gorm.DB) *gin.Engine {
 	router := gin.Default()
-	router.Use(cors.Default())
+	router.Use(CORSMiddleware)
 	router.Use(addContextMiddleware(db))
 	router.LoadHTMLGlob("web/*.html")
 
@@ -69,6 +68,22 @@ func authenticationMiddleware() gin.HandlerFunc {
 			return
 		}
 		c.Set("user", user)
+		c.Next()
+	}
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
 		c.Next()
 	}
 }

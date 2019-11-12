@@ -11,6 +11,7 @@ type Project struct {
 	Beneficiary string    `json:"beneficiary"`
 	Description string    `json:description`
 	ImageUrl    string    `json:"image_url"`
+	Category    string    `gorm:"default:'Educational Assistance'" json:"category"`
 	Deadline    time.Time `json:"deadline"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`

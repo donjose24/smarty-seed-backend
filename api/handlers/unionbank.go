@@ -10,6 +10,10 @@ import (
 	"github.com/jmramos02/smarty-seed-backend/app/services/unionbank"
 )
 
+type SuccessData struct {
+	ProjectID uint
+}
+
 func HandleUnionbankCallback(c *gin.Context) {
 	errors := c.Query("error")
 	db, _ := c.Get("db")
@@ -49,9 +53,12 @@ func HandleUnionbankCallback(c *gin.Context) {
 			ProjectID: pledge.ProjectID,
 		}
 
-		fmt.Println(pledgeDb)
+		successData := SuccessData{
+			ProjectID: pledge.ProjectID,
+		}
+
 		pledgeService.Create(pledgeDb, dbObj)
 
-		c.HTML(200, "success.html", nil)
+		c.HTML(200, "success.html", successData)
 	}
 }

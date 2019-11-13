@@ -5,10 +5,11 @@
         <body>
                 <h3>Payment Successful. You will be redirected in 5 seconds</h3>
                 <script>
+                        const projectId = {{.ProjectID}}
                         window.setTimeout(function(){
 
                                 // Move to a new location or you can do something else
-                                window.location.href = "https://smarty-seed.herokuapp.com/";
+                                window.location.href = "https://smarty-seed.herokuapp.com/" + projectId;
 
                         }, 5000);
                 </script>

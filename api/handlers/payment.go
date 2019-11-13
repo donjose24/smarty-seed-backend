@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/go-multierror"
 	"github.com/jmramos02/smarty-seed-backend/app/models"
@@ -41,13 +42,8 @@ func GenerateUnionbankRedirectString(c *gin.Context) {
 
 	userContext, _ := c.Get("user")
 	if user, success := userContext.(models.User); success {
-		pledge := models.Pledge{
-			Amount:    ub.Amount,
-			ProjectID: ub.ProjectID,
-			User:      user,
-		}
-		state := services.EncodePledge(pledge)
-
+		ub.UserID = user.ID
+		state := services.EncodePledge(ub)
 		url := unionbank.GenerateUnionbankString(ub, state)
 
 		c.JSON(200, gin.H{

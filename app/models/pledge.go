@@ -5,10 +5,10 @@ import (
 )
 
 type Pledge struct {
-	ID        uint      `gorm:"primary_key" json:"id"`
-	UserID    uint      `json:"-"`
-	User      User      `gorm:"association_autoupdate:false" json:"user"`
-	ProjectID uint      `json:"-"`
+	ID        uint `gorm:"primary_key" json:"id"`
+	UserID    uint
+	User      User `gorm:"association_autoupdate:false" json:"user"`
+	ProjectID uint
 	Project   Project   `gorm:"association_autoupdate:false" json:"project"`
 	Amount    int       `json:"amount"`
 	CreatedAt time.Time `json:"created_at"`

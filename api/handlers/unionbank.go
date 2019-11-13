@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"github.com/jmramos02/smarty-seed-backend/app/models"
 	"github.com/jmramos02/smarty-seed-backend/app/services"
 	pledgeService "github.com/jmramos02/smarty-seed-backend/app/services/pledge"
 	"github.com/jmramos02/smarty-seed-backend/app/services/unionbank"
@@ -42,7 +43,14 @@ func HandleUnionbankCallback(c *gin.Context) {
 		}
 
 		_, err = unionbank.ExecutePayment(pledge.Amount, authorization.AccessToken)
-		pledgeService.Create(pledge, dbObj)
+		pledgeDb := models.Pledge{
+			UserID:    pledge.UserID,
+			Amount:    pledge.Amount,
+			ProjectID: pledge.ProjectID,
+		}
+
+		fmt.Println(pledgeDb)
+		pledgeService.Create(pledgeDb, dbObj)
 
 		c.HTML(200, "success.html", nil)
 	}

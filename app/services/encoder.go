@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jmramos02/smarty-seed-backend/app/models"
+	"github.com/jmramos02/smarty-seed-backend/app/services/unionbank"
 	"github.com/jmramos02/smarty-seed-backend/config"
 	"time"
 )
@@ -15,7 +16,7 @@ type Claims struct {
 }
 
 type PledgeClaim struct {
-	Pledge models.Pledge
+	Pledge unionbank.GenerateUnionBankURLRequest
 	jwt.StandardClaims
 }
 
@@ -55,7 +56,7 @@ func DecodeUserInfo(token string) (models.User, error) {
 	return claims.User, nil
 }
 
-func EncodePledge(pledge models.Pledge) string {
+func EncodePledge(pledge unionbank.GenerateUnionBankURLRequest) string {
 	appKey := config.GetApplicationKey()
 	// 1 hour expiration
 	expirationTime := time.Now().Add(1 * time.Hour)
@@ -72,11 +73,10 @@ func EncodePledge(pledge models.Pledge) string {
 	if err != nil {
 		panic("Signing Failed. Please check application key")
 	}
-
 	return tokenString
 }
 
-func DecodePledge(token string) (models.Pledge, error) {
+func DecodePledge(token string) (unionbank.GenerateUnionBankURLRequest, error) {
 	appKey := config.GetApplicationKey()
 	pledge := &PledgeClaim{}
 
@@ -85,7 +85,7 @@ func DecodePledge(token string) (models.Pledge, error) {
 	})
 
 	if err != nil {
-		return models.Pledge{}, errors.New(err.Error())
+		return unionbank.GenerateUnionBankURLRequest{}, errors.New(err.Error())
 	}
 
 	return pledge.Pledge, nil

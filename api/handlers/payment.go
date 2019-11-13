@@ -9,11 +9,17 @@ import (
 	"github.com/jmramos02/smarty-seed-backend/app/services/unionbank"
 	"github.com/jmramos02/smarty-seed-backend/app/utils"
 	"gopkg.in/go-playground/validator.v9"
+	"strconv"
 )
 
 func GenerateUnionbankRedirectString(c *gin.Context) {
-	var ub unionbank.GenerateUnionBankURLRequest
-	c.BindJSON(&ub)
+	projectId, _ := strconv.ParseUint(c.Query("project_id"), 10, 32)
+	amount, _ := strconv.ParseInt(c.Query("amount"), 10, 32)
+
+	ub := unionbank.GenerateUnionBankURLRequest{
+		ProjectID: uint(projectId),
+		Amount:    int(amount),
+	}
 
 	v := validator.New()
 	err := v.Struct(ub)
